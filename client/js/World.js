@@ -5,11 +5,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-var geometry = new THREE.BoxGeometry();
-var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-var cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
 let setup = () => {
     camera.position.x = 0;
     camera.position.y = 0;
@@ -19,9 +14,7 @@ let setup = () => {
     camera.rotation.y = 0;
     camera.rotation.z = 0;
 
-    cube.position.x = 0;
-    cube.position.y = 0;
-    cube.position.z = -10;
+    createFloor();
 }
 
 let cameraController = () => {
@@ -58,6 +51,23 @@ var animate = function () {
     renderer.render(scene, camera);
     cameraController();
 };
+
+let createFloor = () => {
+    for (let i = 0; i < 50; i++) {
+        for (let k = 0; k < 50; k++) {
+            var geometry = new THREE.BoxGeometry();
+            let coblestoneTex = new THREE.TextureLoader().load( './client/textures/coblestone.jpeg' );
+            var coblestoneMat = new THREE.MeshBasicMaterial( { map: coblestoneTex } );
+            var cube = new THREE.Mesh(geometry, coblestoneMat);
+
+            cube.position.x += i;
+            cube.position.y = -1;
+            cube.position.z += k;
+
+            scene.add(cube);
+        }
+    }
+}
 setup();
 animate();
 
